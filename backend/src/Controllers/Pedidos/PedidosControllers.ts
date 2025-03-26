@@ -32,6 +32,13 @@ class PedidosControllers {
         const resposta = await enviarDadosServices.buscarPedidosCliente(id)
         return res.json(resposta)
     }
+
+    async verificaPedidos(req: Request, res: Response) {
+        const id = req.usuarioId
+        const enviarDadosServices = new PedidosServices()
+        const resposta = await enviarDadosServices.verificaPedido(id)
+        return res.json(resposta)
+    }
 }
 
 export { PedidosControllers }

@@ -3,4 +3,16 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    table {
+        th {
+            padding: 1rem;
+            border: 1px solid #000;
+        }
+        
+        td {
+            padding: 1rem;
+            border: 1px solid #000;
+        }
+    }
 }

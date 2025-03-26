@@ -44,5 +44,6 @@ router.post('/CadastrarClientes', new ClientesController().cadastrarClientes)
 router.post('/RealizarPedidos', new PedidosControllers().criarPedidos)
 router.post('/AdicionarItensPedidos', new PedidosControllers().adcionarItensPedido)
 router.get('/ConsultarPedidos', estaAutenticado, new PedidosControllers().buscarPedidosCliente)
+router.get('/VerificaPedidos', new PedidosControllers().verificaPedidos)
 
 export default router

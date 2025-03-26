@@ -1,5 +1,5 @@
 import prismaClient from '../../Prisma'
-
+import { sign } from 'jsonwebtoken'
 
 interface CriarPedidos{
     id_cliente: string
@@ -15,16 +15,6 @@ interface AdicionarItensPedidos{
 
 class PedidosServices{
     async criarPedidos({id_cliente, id_produto, valor}: CriarPedidos){
-        // const pedidoAberto = await prismaClient.carrinho.findFirst({
-        //     where: {
-        //         id_cliente: id_cliente
-        //     }
-        // })
-
-        // if(pedidoAberto){
-        //     throw new Error('Existe pedido em aberto')
-        // }
-        
         const resposta = await prismaClient.carrinho.create({
             data:{
                 id_cliente: id_cliente,
@@ -50,7 +40,7 @@ class PedidosServices{
         if(produtoExiste){
             throw new Error('Produto Já Adicionado no Carrinho')
         }
-        
+
         await prismaClient.itemsCarrinho.create({
             data: {
                 id_produto: id_produto,
@@ -105,6 +95,18 @@ class PedidosServices{
             }
         })
         return resposta;
+    }
+
+    async verificaPedido(id: string) {
+        const carrinhoExiste = await prismaClient.carrinho.findFirst({
+            where: {
+                id_cliente: id
+            }
+        })
+
+        if(carrinhoExiste){
+            throw new Error('Carrinho Existe')
+        }
     }
 }
 

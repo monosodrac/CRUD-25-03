@@ -41,22 +41,34 @@ export default function VisualizaProdutos() {
         // eslint-disable-next-line
     }, [])
 
-    async function adCarrinho(id1) {        
+    async function adCarrinho(id1) {
         if (autenticado !== true) {
             navegar('/LoginClientes')
         } else if (existePedido === false) {
             try {
-                const produto = dados.filter((item) => item.id === id1)
-                const valor = Number(produto.map((item) => item.preco))
-                const id_produto = String(produto.map((item) => item.id))
-                const resposta = await apiLocal.post('/RealizarPedidos', {
-                    id_cliente,
-                    id_produto,
-                    valor
-                })
-                localStorage.setItem('@npedido', JSON.stringify(resposta.data.n_pedido))
-                localStorage.setItem('@id_pedido', JSON.stringify(resposta.data.id))
-                setExistePedido(true)
+                const verificaPedidos = await apiLocal.get('/VerificaPedidos')
+                if (verificaPedidos.data) {
+                    console.log(verificaPedidos)
+                    setExistePedido(true)
+                    try {
+                        const resposta = await apiLocal.post('/RealizarPedidos', {
+                        })
+                        localStorage.setItem('@npedido', JSON.stringify(resposta.data.n_pedido))
+                        localStorage.setItem('@id_pedido', JSON.stringify(resposta.data.id))
+                    } catch(err) {}
+                } else {
+                    const produto = dados.filter((item) => item.id === id1)
+                    const valor = Number(produto.map((item) => item.preco))
+                    const id_produto = String(produto.map((item) => item.id))
+                    const resposta = await apiLocal.post('/RealizarPedidos', {
+                        id_cliente,
+                        id_produto,
+                        valor
+                    })
+                    localStorage.setItem('@npedido', JSON.stringify(resposta.data.n_pedido))
+                    localStorage.setItem('@id_pedido', JSON.stringify(resposta.data.id))
+                    setExistePedido(true)
+                }
             } catch (err) {
                 toast.error(err.response.data.error, {
                     toastId: 'ToastID'

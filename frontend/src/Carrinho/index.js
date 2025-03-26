@@ -21,7 +21,6 @@ export default function Carrinho() {
                 setDados(resposta.data)
             }
             buscarPedidosCliente()
-            // console.log(err.response)
         } catch (err) {
             toast.error(err.response.data)
         }
@@ -33,21 +32,28 @@ export default function Carrinho() {
     return (
         <div className='conteinerGeralCarrinho'>
             <h1>Carrinho</h1>
-            {dados.map((item) => {
-                return (
-                    <>
-                        <table className='tabelaClasse'>
-                            <thead>
+            <table className='tabelaClasse'>
+                <thead>
+                    <tr>
+                        <th>Número Pedido</th>
+                        <th>Status Pedido</th>
+                        <th>Visualizar - Apagar</th>
+                    </tr>
+                </thead>
+                {dados.map((item) => {
+                    return (
+                        <>
+                            <tbody>
                                 <tr>
                                     <td>{item.n_pedido}</td>
                                     <td>{item.status}</td>
                                     <td>Visualizar - Apagar</td>
                                 </tr>
-                            </thead>
-                        </table>
-                    </>
-                )
-            })}
+                            </tbody>
+                        </>
+                    )
+                })}
+            </table>
         </div>
     )
 }
